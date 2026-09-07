@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventX - College Event Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-page">
+    <div class="login-box">
+        <div class="logo">⚡ EventX</div>
+        <h1>College Event Management</h1>
+        <p>Manage, discover and participate in college events.</p>
+
+        <input type="text" id="loginName" placeholder="Enter your name">
+
+        <select id="loginRole">
+            <option value="Student">Student</option>
+            <option value="Coordinator">Event Coordinator</option>
+            <option value="Admin">Administrator</option>
+        </select>
+
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            ⚡ <span>EventX</span>
+        </div>
+
+        <nav>
+            <button onclick="showPage('dashboard')" class="nav-btn active">
+                🏠 Dashboard
+            </button>
+
+            <button onclick="showPage('events')" class="nav-btn">
+                📅 Events
+            </button>
+
+            <button onclick="showPage('registrations')" class="nav-btn">
+                🎟 My Registrations
+            </button>
+
+            <button onclick="showPage('calendar')" class="nav-btn">
+                🗓 Calendar
+            </button>
+
+            <button onclick="showPage('attendance')" class="nav-btn">
+                ✅ Attendance
+            </button>
+
+            <button onclick="showPage('notifications')" class="nav-btn">
+                🔔 Notifications
+            </button>
+
+            <button onclick="showPage('coordinator')" class="nav-btn">
+                👨‍💼 Coordinator
+            </button>
+
+            <button onclick="showPage('chiefGuest')" class="nav-btn">
+                ⭐ Chief Guest
+            </button>
+        </nav>
+
+        <button class="logout" onclick="logout()">↪ Logout</button>
+    </aside>
+
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>College Event Management System</p>
+            </div>
+
+            <div class="user">
+                <div class="avatar" id="userAvatar">S</div>
+                <span id="userName">Student</span>
+            </div>
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page">
+
+            <div class="hero">
+                <div>
+                    <span class="badge">WELCOME</span>
+                    <h1>Hello, <span id="welcomeName">Student</span> 👋</h1>
+                    <p>
+                        Discover upcoming events, register easily and track
+                        your participation.
+                    </p>
+
+                    <button onclick="showPage('events')">
+                        Explore Events →
+                    </button>
+                </div>
+
+                <div class="hero-icon">🎓</div>
+            </div>
+
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>🎟</span>
+                    <h3 id="registeredCount">0</h3>
+                    <p>Registered Events</p>
+                </div>
+
+                <div class="stat-card">
+                    <span>📅</span>
+                    <h3>6</h3>
+                    <p>Upcoming Events</p>
+                </div>
+
+                <div class="stat-card">
+                    <span>✅</span>
+                    <h3>4</h3>
+                    <p>Events Attended</p>
+                </div>
+
+                <div class="stat-card">
+                    <span>🏆</span>
+                    <h3>2</h3>
+                    <p>Certificates</p>
+                </div>
+
+            </div>
+
+
+            <div class="section-heading">
+                <h2>Upcoming Events</h2>
+                <button class="small-btn" onclick="showPage('events')">
+                    View All
+                </button>
+            </div>
+
+            <div id="dashboardEvents" class="event-grid"></div>
+
+        </section>
+
+
+        <!-- EVENTS -->
+        <section id="events" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Explore Events</h1>
+                <p>Find and register for college events.</p>
+            </div>
+
+            <div class="filters">
+                <input
+                    type="text"
+                    id="search"
+                    placeholder="🔍 Search events..."
+                    onkeyup="displayEvents()"
+                >
+
+                <select id="category" onchange="displayEvents()">
+                    <option value="All">All Categories</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Workshop">Workshop</option>
+                </select>
+            </div>
+
+            <div id="eventGrid" class="event-grid"></div>
+
+        </section>
+
+
+        <!-- REGISTRATIONS -->
+        <section id="registrations" class="page hidden">
+
+            <div class="page-intro">
+                <h1>My Registrations</h1>
+                <p>View your registered events and digital tickets.</p>
+            </div>
+
+            <div id="registrationList"></div>
+
+        </section>
+
+
+        <!-- CALENDAR -->
+        <section id="calendar" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Event Calendar</h1>
+                <p>Upcoming college events.</p>
+            </div>
+
+            <div class="calendar-card">
+
+                <div class="calendar-header">
+                    <button onclick="changeMonth(-1)">‹</button>
+                    <h2 id="monthYear"></h2>
+                    <button onclick="changeMonth(1)">›</button>
+                </div>
+
+                <div class="weekdays">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                </div>
+
+                <div id="calendarDays" class="calendar-days"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ATTENDANCE -->
+        <section id="attendance" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Attendance</h1>
+                <p>Track your participation in events.</p>
+            </div>
+
+            <div class="attendance-card">
+
+                <div class="attendance-circle">
+                    <strong>80%</strong>
+                    <span>Attendance</span>
+                </div>
+
+                <div class="attendance-info">
+                    <h2>Participation Summary</h2>
+                    <p>Events Registered: <b id="attReg">0</b></p>
+                    <p>Events Attended: <b>4</b></p>
+                    <p>Events Missed: <b>1</b></p>
+                </div>
+
+            </div>
+
+            <div class="table-card">
+
+                <h2>Attendance History</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>AI & Machine Learning</td>
+                            <td>05 Sep 2026</td>
+                            <td><span class="status present">Present</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>Hackathon 2026</td>
+                            <td>28 Aug 2026</td>
+                            <td><span class="status present">Present</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>Sports Meet</td>
+                            <td>20 Aug 2026</td>
+                            <td><span class="status absent">Absent</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTIFICATIONS -->
+        <section id="notifications" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Notifications 🔔</h1>
+                <p>Stay updated with your events.</p>
+            </div>
+
+            <div class="notification-list">
+
+                <div class="notification">
+                    <span>🎟</span>
+                    <div>
+                        <h3>Registration Successful</h3>
+                        <p>You successfully registered for TechFest 2026.</p>
+                        <small>10 minutes ago</small>
+                    </div>
+                </div>
+
+                <div class="notification">
+                    <span>📢</span>
+                    <div>
+                        <h3>Venue Updated</h3>
+                        <p>AI Workshop venue changed to Seminar Hall.</p>
+                        <small>2 hours ago</small>
+                    </div>
+                </div>
+
+                <div class="notification">
+                    <span>🏆</span>
+                    <div>
+                        <h3>Certificate Available</h3>
+                        <p>Your participation certificate is ready.</p>
+                        <small>Yesterday</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- COORDINATOR -->
+        <section id="coordinator" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Event Coordinator 👨‍💼</h1>
+                <p>Contact the coordinator for event-related queries.</p>
+            </div>
+
+            <div class="person-card">
+
+                <div class="person-photo">👨‍🏫</div>
+
+                <div class="person-details">
+                    <span class="badge">EVENT COORDINATOR</span>
+
+                    <h1>Dr. Arun Kumar</h1>
+
+                    <p><strong>Designation:</strong> Assistant Professor</p>
+                    <p><strong>Department:</strong> Computer Science and Technology</p>
+                    <p><strong>College:</strong> SNS College of Engineering</p>
+                    <p><strong>Phone:</strong> +91 98765 43210</p>
+                    <p><strong>Email:</strong> arun@snsce.ac.in</p>
+
+                    <div class="contact-buttons">
+                        <a href="tel:+919876543210">📞 Call</a>
+                        <a href="mailto:arun@snsce.ac.in">✉ Email</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHIEF GUEST -->
+        <section id="chiefGuest" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Chief Guest ⭐</h1>
+                <p>Meet the distinguished guest of the event.</p>
+            </div>
+
+            <div class="person-card guest">
+
+                <div class="person-photo">👨‍💻</div>
+
+                <div class="person-details">
+                    <span class="badge">CHIEF GUEST</span>
+
+                    <h1>Mr. Rajesh Kumar</h1>
+
+                    <p><strong>Designation:</strong> Senior Software Engineer</p>
+                    <p><strong>Organization:</strong> Google India</p>
+                    <p><strong>Experience:</strong> 12+ Years</p>
+
+                    <p class="guest-description">
+                        Technology professional and industry expert with
+                        experience in Artificial Intelligence, Cloud Computing
+                        and Software Development.
+                    </p>
+
+                    <div class="guest-tags">
+                        <span>AI & ML</span>
+                        <span>Cloud</span>
+                        <span>Innovation</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ORGANIZER PANEL -->
+        <section id="manage" class="page hidden">
+
+            <div class="page-intro">
+                <h1>Create Event</h1>
+                <p>Add a new college event.</p>
+            </div>
+
+            <div class="form-card">
+
+                <input id="eventName" placeholder="Event Name">
+
+                <select id="eventCategory">
+                    <option>Technical</option>
+                    <option>Cultural</option>
+                    <option>Sports</option>
+                    <option>Workshop</option>
+                </select>
+
+                <input id="eventDate" type="date">
+
+                <input id="eventVenue" placeholder="Venue">
+
+                <input id="eventCoordinator" placeholder="Coordinator Name">
+
+                <input id="eventGuest" placeholder="Chief Guest Name">
+
+                <button onclick="createEvent()">Create Event</button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- EVENT MODAL -->
+<div id="eventModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal()">×</button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- QR MODAL -->
+<div id="qrModal" class="modal hidden">
+
+    <div class="modal-box qr-box">
+
+        <button class="close" onclick="closeQR()">×</button>
+
+        <h2>Digital Event Ticket 🎟</h2>
+
+        <div class="qr-code" id="qrCode">
+            EVENT-X
+        </div>
+
+        <h3 id="qrEventName"></h3>
+
+        <p>Registration ID: <b id="registrationId"></b></p>
+
+        <button onclick="window.print()">Print Ticket</button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
