@@ -11,12 +11,20 @@
 
 <!-- LOGIN -->
 <div id="loginPage" class="login-page">
-    <div class="login-box">
-        <div class="logo">⚡ EventX</div>
-        <h1>College Event Management</h1>
-        <p>Manage, discover and participate in college events.</p>
 
-        <input type="text" id="loginName" placeholder="Enter your name">
+    <div class="login-box">
+
+        <div class="logo">⚡ EventX</div>
+
+        <h1>Welcome Back</h1>
+
+        <p>College Event Management System</p>
+
+        <input
+            type="text"
+            id="loginName"
+            placeholder="Enter your name"
+        >
 
         <select id="loginRole">
             <option value="Student">Student</option>
@@ -24,8 +32,14 @@
             <option value="Admin">Administrator</option>
         </select>
 
-        <button onclick="login()">Login</button>
+        <button type="button" onclick="login()">
+            Login →
+        </button>
+
+        <p id="loginError" class="login-error"></p>
+
     </div>
+
 </div>
 
 
