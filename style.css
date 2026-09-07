@@ -785,3 +785,8 @@ td {
         padding: 25px;
     }
   }
+.login-error {
+    color: #ff6b6b !important;
+    margin-top: 12px;
+    min-height: 20px;
+}
