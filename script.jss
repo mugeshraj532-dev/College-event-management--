@@ -1,4 +1,50 @@
-/* ================================
+let currentUser = localStorage.getItem("eventUser") || "";
+
+
+function login() {
+
+    const nameInput = document.getElementById("loginName");
+    const roleInput = document.getElementById("loginRole");
+    const error = document.getElementById("loginError");
+
+    const name = nameInput.value.trim();
+    const role = roleInput.value;
+
+    if (name === "") {
+
+        error.textContent = "⚠️ Please enter your name.";
+        nameInput.focus();
+
+        return;
+    }
+
+    // Save login information
+    localStorage.setItem("eventUser", name);
+    localStorage.setItem("eventRole", role);
+
+    currentUser = name;
+
+    // Hide login
+    document.getElementById("loginPage")
+        .classList.add("hidden");
+
+    // Show application
+    document.getElementById("app")
+        .classList.remove("hidden");
+
+    // Update user information
+    document.getElementById("userName").textContent = name;
+    document.getElementById("welcomeName").textContent = name;
+
+    document.getElementById("userAvatar").textContent =
+        name.charAt(0).toUpperCase();
+
+    // Load dashboard
+    displayEvents();
+    displayDashboardEvents();
+    displayRegistrations();
+    updateRegistrationCount();
+}/* ================================
    EVENT MANAGEMENT SYSTEM
 ================================ */
 
